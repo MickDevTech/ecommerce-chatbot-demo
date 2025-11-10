@@ -1,0 +1,9 @@
+.env
+node_modules
+**/__pycache__/
+**/.pytest_cache/
+**/.DS_Store
+**/.venv
+**/.mypy_cache
+**/.ruff_cache
+https://github.com/MickDevTech/ecommerce-chatbot-demo.git
