@@ -1,6 +1,3 @@
-# ecommerce-chatbot-demo
-A simple react chatbot integrated with a LLM service in Hugging Face
-
 ## Proyecto ecommerce-chatbot-demo
 
 Este proyecto es un chatbot integrado con un servicio LLM de Hugging Face. Este chatbot puede ser utilizado para asistir a los usuarios de un comercio electrónico.
