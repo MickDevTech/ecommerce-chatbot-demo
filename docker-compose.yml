@@ -6,9 +6,6 @@ services:
     environment:
       - HF_TOKEN=${HF_TOKEN}
       - HF_MODEL_ID=${HF_MODEL_ID:-deepseek-ai/DeepSeek-R1:fastest}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - OPENAI_API_BASE=${OPENAI_API_BASE:-https://router.huggingface.co/v1}
-      - OPENAI_MODEL=${OPENAI_MODEL:-${HF_MODEL_ID}}
       - PRODUCTS_PATH=/app/products.json
     ports:
       - "8000:8000"
