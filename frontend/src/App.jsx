@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 
+// Leer la URL del API desde variable de entorno
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 function App() {
   const [messages, setMessages] = useState([
     { id: 1, text: '¡Hola! Soy tu asistente de compras. ¿En qué puedo ayudarte hoy?', sender: 'bot' }
@@ -23,17 +26,30 @@ function App() {
     setIsLoading(true)
 
     try {
-      const res = await fetch('http://localhost:8000/api/chat', {
+      const res = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: userMessage.text })
       })
-      if (!res.ok) throw new Error('Error en el servidor')
+      
+      if (!res.ok) {
+        // Intentar leer el mensaje de error del servidor
+        let errorMessage = 'Error en el servidor'
+        try {
+          const errorData = await res.json()
+          errorMessage = errorData.detail || errorMessage
+        } catch (e) {
+          // Si no se puede parsear, usar el mensaje por defecto
+        }
+        throw new Error(errorMessage)
+      }
+      
       const data = await res.json()
       setMessages(prev => [...prev, { id: Date.now() + 1, text: data.response, sender: 'bot' }])
     } catch (err) {
       console.error(err)
-      setMessages(prev => [...prev, { id: Date.now() + 1, text: 'Ocurrió un error. Intenta nuevamente.', sender: 'bot' }])
+      const errorMsg = err.message || 'Ocurrió un error. Intenta nuevamente.'
+      setMessages(prev => [...prev, { id: Date.now() + 1, text: errorMsg, sender: 'bot' }])
     } finally {
       setIsLoading(false)
     }

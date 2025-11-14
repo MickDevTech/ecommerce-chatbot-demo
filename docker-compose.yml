@@ -5,8 +5,10 @@ services:
       dockerfile: backend/Dockerfile
     environment:
       - HF_TOKEN=${HF_TOKEN}
-      - HF_MODEL_ID=${HF_MODEL_ID:-deepseek-ai/DeepSeek-R1:fastest}
+      - HF_MODEL_ID=${HF_MODEL_ID:-mistralai/Mistral-7B-Instruct-v0.2}
+      - USE_LOCAL_MODEL=${USE_LOCAL_MODEL:-false}
       - PRODUCTS_PATH=/app/products.json
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
     ports:
       - "8000:8000"
     volumes:
@@ -17,6 +19,8 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
     ports:
       - "5173:5173"
     volumes:
